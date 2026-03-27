@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #1A1B20;
+  color: #E8E9ED;
+  min-height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #3A3B46;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4A4B56;
+}
+
+/* Focus styles */
+input:focus,
+button:focus-visible {
+  outline: 1px solid #6E9ECA;
+  outline-offset: 1px;
+}

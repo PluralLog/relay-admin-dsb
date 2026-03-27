@@ -1,0 +1,37 @@
+# Example: run the admin dashboard alongside your relay server.
+# This can be in the same docker-compose as the relay, or a separate one
+# on the same Docker network.
+
+version: "3.8"
+
+services:
+  polylog-admin:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      # REQUIRED: Internal URL to the relay server.
+      # If on the same Docker network as the relay, use the service name:
+      - RELAY_URL=http://polylog-relay:8443
+      # If the relay is on a different host:
+      # - RELAY_URL=https://relay.example.com:8443
+
+      # REQUIRED: Must match the relay server's POLYLOG_ADMIN_TOKEN.
+      - ADMIN_TOKEN=${PLURALLOG_ADMIN_TOKEN}
+
+      # RECOMMENDED: Bcrypt hash of the admin login password.
+      # Generate with: node -e "console.log(require('bcryptjs').hashSync('your-password', 12))"
+      # If not set, the ADMIN_TOKEN value is used as the login password (less secure).
+      - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH:-}
+
+      # OPTIONAL: Secret for signing dashboard session JWTs.
+      # Defaults to ADMIN_TOKEN if not set.
+      - JWT_SECRET=${JWT_SECRET:-}
+
+    restart: unless-stopped
+
+# If the relay server is in a separate docker-compose, connect to its network:
+# networks:
+#   default:
+#     external:
+#       name: polylog-relay_default
